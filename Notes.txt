@@ -1,0 +1,15 @@
+:=- CS 222 Systems Programming Notes -=:
+      - Clay Buxton Spring 2018 -
+
+[]== MAKEFILES ==[]
+uses the "make" utility, tells it what to make.
+
+Example:
+[]===========================[]
+ |  all: hello               |
+ |  hello: hello.c           |
+ |    gcc -o hello hello.c   |
+ |                           |
+ |  clean:                   |
+ |    rm -f *.o hello        |
+[]===========================[]
