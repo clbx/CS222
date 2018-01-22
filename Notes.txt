@@ -13,3 +13,16 @@ Example:
  |  clean:                   |
  |    rm -f *.o hello        |
 []===========================[]
+
+
+[]============ ESCAPE SEQUENCES ===============[]
+\a "Alert character"   \\ "Backslash"
+\b "Backspace"         \? "Question Mark"
+\f "Formfeed"          \' "Single Quote"
+\n "New Line"          \" "Double Quote"
+\r "Carriage Return"   \ooo "Octal Number"
+\t "Horizontal Tab"    \xhh "Hexadecimal Number"
+\v "Vertical Tab"    **\0 "The end of a string"
+=================================================
+**\0 represents the end of a string, this will also mean that a String will
+have one more character then what is visible.
