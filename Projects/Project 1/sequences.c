@@ -1,5 +1,12 @@
-#include <stdio.h>
+/*===================
+// CS222: Systems Programming
+// Program: Project 1, Something Numbers
+// Author: Clay Buxton, Chris Myers
+// Date:1/23/17
+//===================
+*/
 
+#include <stdio.h>                         // Include our Library
 
 //Lazy Caterer's Sequence.
 void caterer(){
@@ -25,7 +32,7 @@ int isPrime(int in){                       //Indivudal Number Checker
 
 void primes(){                             //A Main Prime Checker
   printf("Prime Numbers:\n");              //Header
-  int counter=0,i=1;                       //Declaring loop var & prime counter
+  int counter=0,i=2;                       //Declaring loop var & prime counter
   while(counter <= 50){                    //We want the first 50 primes
     if(isPrime(i)){                        //Check if "i" is prime
       counter++;                           //If it is add one to the counter
@@ -38,35 +45,44 @@ void primes(){                             //A Main Prime Checker
 
 //Fibonacci
 //Collatz Stopping Time
+
+
+
 //Happy Numbers
-int runequation(int in){
-  int total=0;
-  while(1){
-    while(in > 0){
-      total+=((in%10)+(in%10));
-      in = in/10;
+int getnum(int in){                        //Gets number by squaring digits
+  int total=0, digit;                      //Declaring our vars
+  while(in > 0){                           //Until the number no longer is there
+    //printf("%d\n", total);               //Debugging printout
+    digit = in%10;                         //Get the least signifigant digit
+    //printf("Digit: %d \n", digit)        //Debugging printout
+    total+=digit*digit;                    //Add it to our running total
+    in = in/10;                            //Then divide by 10 to remove it.
+  }
+  return total;                            //Return the finished number
+}
+
+void happy(){                              //Finding happy numbers
+  printf("Happy Numbers:\n");              //Header
+  int counter = 0,i=1,result=0;            //Declaring Vars
+  while(counter < 50){                     //Run until we find 50 happy numbers
+    result = i;                            //Make our incremented number the test
+    while((result != 4) && (result != 1)){ //As long as the result isnt 4 or 1
+      result = getnum(result);             //Run the digit equation
     }
-    if(total==1){
-      return 1;
-      break;
+    if(result == 1){                       //1 is happy
+      printf("%d ",i);                     //Let the world know
+      counter++;                           //More importantly let the counter know
     }
-    else if(total == 4){
-      return 0;
-      break;
-    }
+    i++;                                   //increate the tested number
   }
 }
 
-
 int main(){
-  //caterer();
-  //primes();
+  caterer();
+  primes();
   //Fibonacci
   //Collatz Stopping Times
-  //Happy Numbers.
-
-  int happy = runequation(7);
-  printf("%d", happy);
+  happy();
 
 
 }
