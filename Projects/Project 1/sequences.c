@@ -10,13 +10,13 @@
 
 //Lazy Caterer's Sequence.
 void caterer(){
-  printf("Lazy Caterer's Sequence\n");     //Print Header
+  printf("Lazy Caterer's Sequence:\n");     //Print Header
   int i, result;                           //Declare loop and result vars
   for(i=0; i < 50; i++){                   //Loop through the 50 requried #'s
     result = ((i*i)+(i+2))/2;              //Run Equation to find max cuts
     printf("%d ", result);                 //Print Result
   }
-  printf("\n");                            //Put in a new line
+  printf("\n\n");                            //Put in a new line
 }
 
 //Prime Numbers
@@ -33,20 +33,51 @@ int isPrime(int in){                       //Indivudal Number Checker
 void primes(){                             //A Main Prime Checker
   printf("Prime Numbers:\n");              //Header
   int counter=0,i=2;                       //Declaring loop var & prime counter
-  while(counter <= 50){                    //We want the first 50 primes
+  while(counter < 50){                     //We want the first 50 primes
     if(isPrime(i)){                        //Check if "i" is prime
       counter++;                           //If it is add one to the counter
       printf("%d ",i);                     //And let the world know
     }
     i++;                                   //Increment 'i'
   }
-  printf("\n");                            //Put in a new line
+  printf("\n\n");                            //Put in a new line
 }
 
-//Fibonacci
-//Collatz Stopping Time
+void fibonacci(){
+	long long prev1 = 0, prev2 = 1, currentNumber;
+	int i;
+	printf("Fibonacci Sequence:");
+	printf("\n");
+	for(i=0;i<50;i++){
+		currentNumber = prev1 + prev2;
+		printf("%lld ", currentNumber);
+		prev2 = prev1;
+		prev1 = currentNumber;
+	}
+	printf("\n");
+	printf("\n");
+}
 
-
+void stoppingtime(){
+	int sTimes = 0;
+	int i, currentNumber;
+	printf("Collatz Stopping Times:");
+	printf("\n");
+	for(i=1; i<=50; i++){
+		currentNumber = i;
+		while(currentNumber != 1){
+			if((currentNumber%2) != 0)
+				currentNumber = (currentNumber*3)+1;
+			else
+				currentNumber = currentNumber/2;
+			sTimes++;
+		}
+		printf("%d ", sTimes);
+		sTimes = 0;
+	}
+	printf("\n");
+	printf("\n");
+}
 
 //Happy Numbers
 int getnum(int in){                        //Gets number by squaring digits
@@ -80,9 +111,7 @@ void happy(){                              //Finding happy numbers
 int main(){
   caterer();
   primes();
-  //Fibonacci
-  //Collatz Stopping Times
+  fibonacci();
+  stoppingtime();
   happy();
-
-
 }
