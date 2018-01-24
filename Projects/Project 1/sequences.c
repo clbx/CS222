@@ -16,13 +16,13 @@ void caterer(){
     result = ((i*i)+(i+2))/2;              //Run Equation to find max cuts
     printf("%d ", result);                 //Print Result
   }
-  printf("\n\n");                            //Put in a new line
+  printf("\n\n");                          //Put in a new line
 }
 
 //Prime Numbers
 int isPrime(int in){                       //Indivudal Number Checker
   int i;                                   //Loop Variable
-  for(i=2; i <= in/2; i++){                //Slightly more effcient prime check
+  for(i=2; i < in/2; i++){                //Slightly more effcient prime check
     if(in % i == 0){                       //Checking if it divides evenly
         return 0;                          //Returns false if it does
     }
@@ -40,7 +40,7 @@ void primes(){                             //A Main Prime Checker
     }
     i++;                                   //Increment 'i'
   }
-  printf("\n\n");                            //Put in a new line
+  printf("\n\n");                          //Put in a new line
 }
 
 void fibonacci(){
@@ -96,22 +96,24 @@ void happy(){                              //Finding happy numbers
   printf("Happy Numbers:\n");              //Header
   int counter = 0,i=1,result=0;            //Declaring Vars
   while(counter < 50){                     //Run until we find 50 happy numbers
-    result = i;                            //Make our incremented number the test
+    result = i;                            //Make incremented number the test
     while((result != 4) && (result != 1)){ //As long as the result isnt 4 or 1
       result = getnum(result);             //Run the digit equation
     }
     if(result == 1){                       //1 is happy
       printf("%d ",i);                     //Let the world know
-      counter++;                           //More importantly let the counter know
+      counter++;                           //Let the counter know
     }
     i++;                                   //increate the tested number
   }
+  printf("\n");                            //Add Newline
 }
 
-int main(){
-  caterer();
-  primes();
-  fibonacci();
-  stoppingtime();
-  happy();
+int main(){                                //Run everything
+  caterer();                               //Run Caterer
+  primes();                                //Run Primes
+  fibonacci();                             //Run Fibonacci
+  stoppingtime();                          //Run Stopping Time
+  happy();                                 //Run Happy Numbers
+
 }
