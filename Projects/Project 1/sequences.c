@@ -7,12 +7,14 @@
 */
 
 #include <stdio.h>                         // Include our Library
+#define MAX_COUNT 50
+
 
 //Lazy Caterer's Sequence.
 void caterer(){
-  printf("Lazy Caterer's Sequence:\n");     //Print Header
+  printf("Lazy Caterer's Sequence:\n");    //Print Header
   int i, result;                           //Declare loop and result vars
-  for(i=0; i < 50; i++){                   //Loop through the 50 requried #'s
+  for(i=0; i < MAX_COUNT; i++){            //Loop through the 50 requried #'s
     result = ((i*i)+(i+2))/2;              //Run Equation to find max cuts
     printf("%d ", result);                 //Print Result
   }
@@ -22,7 +24,7 @@ void caterer(){
 //Prime Numbers
 int isPrime(int in){                       //Indivudal Number Checker
   int i;                                   //Loop Variable
-  for(i=2; i < in/2; i++){                //Slightly more effcient prime check
+  for(i=2; i < in/2; i++){                 //Slightly more effcient prime check
     if(in % i == 0){                       //Checking if it divides evenly
         return 0;                          //Returns false if it does
     }
@@ -33,7 +35,7 @@ int isPrime(int in){                       //Indivudal Number Checker
 void primes(){                             //A Main Prime Checker
   printf("Prime Numbers:\n");              //Header
   int counter=0,i=2;                       //Declaring loop var & prime counter
-  while(counter < 50){                     //We want the first 50 primes
+  while(counter < MAX_COUNT){              //We want the first 50 primes
     if(isPrime(i)){                        //Check if "i" is prime
       counter++;                           //If it is add one to the counter
       printf("%d ",i);                     //And let the world know
@@ -43,40 +45,34 @@ void primes(){                             //A Main Prime Checker
   printf("\n\n");                          //Put in a new line
 }
 
-void fibonacci(){
-	long long prev1 = 0, prev2 = 1, currentNumber;
-	int i;
-	printf("Fibonacci Sequence:");
-	printf("\n");
-	for(i=0;i<50;i++){
-		currentNumber = prev1 + prev2;
-		printf("%lld ", currentNumber);
-		prev2 = prev1;
+void fibonacci(){                          //The Fibonacci Sequence
+	long long prev1=0,prev2=1,currentNumber; //Declare vars. 2 previous & current
+	int i;                                   //loop int
+	printf("Fibonacci Sequence:\n");         //Header sequence
+	for(i=0;i < MAX_COUNT ;i++){             //We want the first 50 numbers
+		currentNumber = prev1 + prev2;         //Fibonaccis sequence
+		printf("%lld ", currentNumber);        //printing current number
+		prev2 = prev1;                         //Resetting our previous numbers
 		prev1 = currentNumber;
 	}
-	printf("\n");
-	printf("\n");
+	printf("\n\n");                          //Put in a new line
 }
 
-void stoppingtime(){
-	int sTimes = 0;
-	int i, currentNumber;
-	printf("Collatz Stopping Times:");
-	printf("\n");
-	for(i=1; i<=50; i++){
-		currentNumber = i;
-		while(currentNumber != 1){
-			if((currentNumber%2) != 0)
-				currentNumber = (currentNumber*3)+1;
+void stoppingtime(){                       //Collatz Stopping Time
+	int i, sTimes = 0;                       //Declaring our varibles
+	printf("Collatz Stopping Times:\n");     //Print Header
+	for(i=1; i <= MAX_COUNT; i++){           //Loop until we get 50 numbers
+		while(i != 1){                         //As long as our number isnt I
+			if((i%2) != 0)                       //Run the equation pt.1
+				i = (i*3)+1;                       //Run the equation pt.2
 			else
-				currentNumber = currentNumber/2;
-			sTimes++;
+				i = i/2;                           //Run the equation pt.3
+			sTimes++;                            //Increment the sTimes
 		}
-		printf("%d ", sTimes);
-		sTimes = 0;
+		printf("%d ", sTimes);                 //Let the world know
+		sTimes = 0;                            //Reset
 	}
-	printf("\n");
-	printf("\n");
+	printf("\n\n");                          //Put in our spacers
 }
 
 //Happy Numbers
@@ -95,7 +91,7 @@ int getnum(int in){                        //Gets number by squaring digits
 void happy(){                              //Finding happy numbers
   printf("Happy Numbers:\n");              //Header
   int counter = 0,i=1,result=0;            //Declaring Vars
-  while(counter < 50){                     //Run until we find 50 happy numbers
+  while(counter < MAX_COUNT){              //Run until we find 50 happy numbers
     result = i;                            //Make incremented number the test
     while((result != 4) && (result != 1)){ //As long as the result isnt 4 or 1
       result = getnum(result);             //Run the digit equation
@@ -115,5 +111,4 @@ int main(){                                //Run everything
   fibonacci();                             //Run Fibonacci
   stoppingtime();                          //Run Stopping Time
   happy();                                 //Run Happy Numbers
-
 }
