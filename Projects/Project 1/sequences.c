@@ -24,7 +24,7 @@ void caterer(){
 //Prime Numbers
 int isPrime(int in){                       //Indivudal Number Checker
   int i;                                   //Loop Variable
-  for(i=2; i < in/2; i++){                 //Slightly more effcient prime check
+  for(i=2; i <= in/2; i++){                 //Slightly more effcient prime check
     if(in % i == 0){                       //Checking if it divides evenly
         return 0;                          //Returns false if it does
     }
@@ -59,14 +59,15 @@ void fibonacci(){                          //The Fibonacci Sequence
 }
 
 void stoppingtime(){                       //Collatz Stopping Time
-	int i, sTimes = 0;                       //Declaring our varibles
+	int i, sTimes = 0, currNum;                       //Declaring our varibles
 	printf("Collatz Stopping Times:\n");     //Print Header
 	for(i=1; i <= MAX_COUNT; i++){           //Loop until we get 50 numbers
-		while(i != 1){                         //As long as our number isnt I
-			if((i%2) != 0)                       //Run the equation pt.1
-				i = (i*3)+1;                       //Run the equation pt.2
+    currNum = i;
+		while(currNum != 1){                         //As long as our number isnt I
+			if((currNum%2) != 0)                       //Run the equation pt.1
+				currNum = (currNum*3)+1;                       //Run the equation pt.2
 			else
-				i = i/2;                           //Run the equation pt.3
+				currNum = currNum/2;                           //Run the equation pt.3
 			sTimes++;                            //Increment the sTimes
 		}
 		printf("%d ", sTimes);                 //Let the world know
