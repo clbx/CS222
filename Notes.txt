@@ -26,3 +26,30 @@ Example:
 =================================================
 **\0 represents the end of a string, this will also mean that a String will
 have one more character then what is visible.
+
+
+
+Bitwise Operators
+
+&  ->  Bitwise AND
+|  ->  Bitwise OR
+~  ->  Bitwise NOT
+^  ->  Bitwise XOR
+<< ->  Left Shift
+>> ->  Right Shift
+
+[Bitwise And]
+5 & 2   101
+        010  -> 000
+
+5 && 2  -> True
+
+[Swap without a temp using XOR]
+x = x^y    But you shouldnt do this because:
+y = x^y    1.) It's not readable 2.) If x and y are using the same location in memory
+y = x^y
+
+[Shifting]
+
+46 << 2 = -72
+0010 1110    << 2   1011 100    
