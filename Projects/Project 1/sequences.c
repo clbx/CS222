@@ -25,9 +25,8 @@ void caterer(){
 int isPrime(int in){                       //Indivudal Number Checker
   int i;                                   //Loop Variable
   for(i=2; i <= in/2; i++){                //Slightly more effcient prime check
-    if(in % i == 0){                       //Checking if it divides evenly
+    if(in % i == 0)                       //Checking if it divides evenly
         return 0;                          //Returns false if it does
-    }
   }
   return 1;                                //Otherwise it returns true
 }
