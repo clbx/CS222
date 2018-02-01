@@ -1,17 +1,24 @@
-/*===================
-// CS222: Systems Programming
-// Program: Project 1, Something Numbers
-// Author: Clay Buxton, Chris Myers
-// Date:1/23/17
-//===================
-*/
+/*******************************
+*
+*  Project Name: Project 1: Check the Mathematics
+*  Description: Runs multiple Mathmatic sequences
+*  File names: sequences.c makefile
+*  Date: 2/2/2018
+*  Authors: Clay Buxton, Chris Myers
+*
+*******************************/
 
 #include <stdio.h>                         // Include our Library
 #define MAX_COUNT 50
 
 
-//Lazy Caterer's Sequence.
-void caterer(){
+/*
+   Description: This Function runs the Lazy Caterers Sequence
+   Parameters: n/a
+   Returns:	   n/a
+*/
+void caterer()
+{
   printf("Lazy Caterer's Sequence:\n");    //Print Header
   int i, result;                           //Declare loop and result vars
   for(i=0; i < MAX_COUNT; i++){            //Loop through the 50 requried #'s
@@ -21,8 +28,13 @@ void caterer(){
   printf("\n\n");                          //Put in a new line
 }
 
-//Prime Numbers
-int isPrime(int in){                       //Indivudal Number Checker
+/*
+   Description: This function verfies if a number is prime or not.
+   Parameters: Integer, the number being tested
+   Returns:	   Either a 1 if prime, or 0 if not
+*/
+int isPrime(int in)
+{                                          //Indivudal Number Checker
   int i;                                   //Loop Variable
   for(i=2; i <= in/2; i++){                //Slightly more effcient prime check
     if(in % i == 0)                       //Checking if it divides evenly
@@ -31,7 +43,13 @@ int isPrime(int in){                       //Indivudal Number Checker
   return 1;                                //Otherwise it returns true
 }
 
-void primes(){                             //A Main Prime Checker
+/*
+   Description: This function finds the first 50 prime numbers using isPrime
+   Parameters: n/a
+   Returns:	   n/a
+*/
+void primes()
+{                                          //A Main Prime Checker
   printf("Prime Numbers:\n");              //Header
   int counter=0,i=2;                       //Declaring loop var & prime counter
   while(counter < MAX_COUNT){              //We want the first 50 primes
@@ -44,7 +62,13 @@ void primes(){                             //A Main Prime Checker
   printf("\n\n");                          //Put in a new line
 }
 
-void fibonacci(){                          //The Fibonacci Sequence
+/*
+   Description: This function outputs the first 50 numbers in the Fibonacci Sequence
+   Parameters: n/a
+   Returns:	   n/a
+*/
+void fibonacci()
+{                                          //The Fibonacci Sequence
 	long long prev1=0,prev2=1,currentNumber; //Declare vars. 2 previous & current
 	int i;                                   //loop int
 	printf("Fibonacci Sequence:\n");         //Header sequence
@@ -57,7 +81,13 @@ void fibonacci(){                          //The Fibonacci Sequence
 	printf("\n\n");                          //Put in a new line
 }
 
-void stoppingtime(){                       //Collatz Stopping Time
+/*
+   Description: This function outputs the first 50 Collatz Stopping Times
+   Parameters: n/a
+   Returns:	   n/a
+*/
+void stoppingtime()
+{                                           //Collatz Stopping Time
 	int i, sTimes = 0, currNum;              //Declaring our varibles
 	printf("Collatz Stopping Times:\n");     //Print Header
 	for(i=1; i <= MAX_COUNT; i++){           //Loop until we get 50 numbers
@@ -75,8 +105,13 @@ void stoppingtime(){                       //Collatz Stopping Time
 	printf("\n\n");                          //Put in our spacers
 }
 
-//Happy Numbers
-int getnum(int in){                        //Gets number by squaring digits
+/*
+   Description: This function gets the sum of the digits
+   Parameters: Integer to get it's digits added
+   Returns:	   The sum of the digits
+*/
+int getnum(int in)
+{                                          //Gets number by squaring digits
   int total=0, digit;                      //Declaring our vars
   while(in > 0){                           //Until the number no longer is there
     //printf("%d\n", total);               //Debugging printout
@@ -88,7 +123,13 @@ int getnum(int in){                        //Gets number by squaring digits
   return total;                            //Return the finished number
 }
 
-void happy(){                              //Finding happy numbers
+/*
+   Description: This finds the first 50 Happy numbers
+   Parameters: n/a
+   Returns:	   n/a
+*/
+void happy()
+{                                          //Finding happy numbers
   printf("Happy Numbers:\n");              //Header
   int counter = 0,i=1,result=0;            //Declaring Vars
   while(counter < MAX_COUNT){              //Run until we find 50 happy numbers
@@ -105,7 +146,8 @@ void happy(){                              //Finding happy numbers
   printf("\n");                            //Add Newline
 }
 
-int main(){                                //Run everything
+int main()
+{                                          //Run everything
   caterer();                               //Run Caterer
   primes();                                //Run Primes
   fibonacci();                             //Run Fibonacci
