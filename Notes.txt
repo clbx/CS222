@@ -50,6 +50,29 @@ y = x^y    1.) It's not readable 2.) If x and y are using the same location in m
 y = x^y
 
 [Shifting]
-
 46 << 2 = -72
-0010 1110    << 2   1011 100    
+0010 1110    << 2   1011 100
+
+[Direction]
+
+switch(data){
+  case const1:
+    stuff
+    break;
+  case const2:
+    stuff
+    break;
+  case const3:
+    stuff
+    break;
+  default:
+    stuff
+    break;
+}
+
+
+
+[Loops]
+1: while when you dont know how many times to run
+2: for when you know how many times you want to run
+3: do-while when you want to run before checking the validity of the loop
