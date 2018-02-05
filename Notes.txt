@@ -76,3 +76,8 @@ switch(data){
 1: while when you dont know how many times to run
 2: for when you know how many times you want to run
 3: do-while when you want to run before checking the validity of the loop
+
+[Error handling]
+#include <errno.h>
+Creates a integet called errno which has error codes
+perror(""), prints when there is an error
