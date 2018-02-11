@@ -11,47 +11,26 @@
 #include <stdio.h>
 #define MAX_STR 2048
 
-char input[MAX_STR];                                          //Declaring a "string" for our input message
-char key[MAX_STR];                                            //Delcaring a "string" for our key
-
-/*
-int rotate(){
-
-}*/
-
-
-
-
-int getstr(){
-  int c, i = 0;
-  //(char)255
-  while((c=getchar()) != EOF){
-    input[i] = c;
-    i++;
+void printstr(char str[]){
+  printf("Printing String");
+  int i;
+  for(i = 0; str[i] != 0; i++){
+    putchar(str[i]);
   }
-  printf("Finished\n");
-  /*
-  i = 0;
-  c = getchar();
-  putchar(c);
-  putchar('*');
-  printf("WE GET HERE\n");
-  while(c != EOF){
-    c = getchar();
-    key[i] = c;
-    putchar(c);
-    i++;
-  }*/
-
-  return 0;
 }
 
 
-int main(){
-  getstr();
 
-  printf("%s", input);
-  //printf("Finished first loop");
+int main(){
+  char input[MAX_STR];
+  char key[MAX_STR];
+  int c, i = 0;
+  for(i = 0; i != 255 && i != EOF; i++){
+    c = getchar();
+    input[i] = c;
+  }
+
+  printstr(input);
   //printf("%s", key);
   //Get the message
   //Get the key

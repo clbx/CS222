@@ -81,3 +81,13 @@ switch(data){
 #include <errno.h>
 Creates a integet called errno which has error codes
 perror(""), prints when there is an error
+
+
+[extern declaration]
+if you want a global variable from another file needs to be defined with extern
+
+static does not allow for other files to use the varaible
+
+
+[Registers]
+this shows the cimplier that this will be used a lot and it should be kept in a register
