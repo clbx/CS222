@@ -2,8 +2,6 @@
 ## Clay Buxton
 ### Spring 2018
 
-## Jump To
-
 
 # Makefiles
 Uses the "Make" Utility, tells it what to makefile
