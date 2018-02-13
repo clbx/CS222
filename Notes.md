@@ -66,6 +66,53 @@ This shows the compiler what will be used a lot and will put it in a CPU Registe
 
 # Pointers and Arrays
 
+Declaring an array is done by ```int name[size]```
+You _must_ give a fixed size, either a literal or a ```#define``` constant
+
+### Accessing Arrays
+```c
+list[9] = 142;            //Setting position 9 as 142
+printf("%d", list[9]);    //Reading that
+```
+No array length function, keep track of how many things are in the array.
+
+Arrays will start filled with garbage, it just looks at whatever is in the memory. This is the same with any other variable in C.
+
+Explicit initialization:
+
+```int primes[10] = {2, 3, 5, 6, 11, 13, 17, 19 , 23, 29};```
+
+length does not need to be defined for initialized Arrays
+
+```char grades[] = { 'A', 'B', 'C'};``` will be 3
+
+#### Memory Operations:
+**memset()**
+Can set all the butes in a chunk of memory to a particular value.
+
+```memset(vales, 0, sizeof(int)*100); ``` will zero out an array
+
+Can only set bytes.
+
+**memcpy()**
+```memcpy(copy, cubes, sizeof(cubes));```
+will move copy to cubes.
+
+### Passing Arrays to Functions
+
+Any changes made to arrays in a function will affect the array outside of the function. You must pass array length with the array when giving it an array.
+
+
+### Multi-Dimenstional Arrays
+```char board[8][8];```
+
+when calling a Multi-Dimenstional array you have to give it number of columns
+``` clearBoard( char board[][8]);```
+
+
+
+### Pointers
+
 A pointer is a varible that contains the address of a variable
 
 ```p = &c``` will assign the address of c to the varible p
@@ -104,6 +151,7 @@ void swap(int *px, int *py){
 ```
 **
 It doesnt switch the varibles themselves or the numbers, but just the things it points too
+
 
 ### Pointers and Arrays
 

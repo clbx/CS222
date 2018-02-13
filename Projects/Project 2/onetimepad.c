@@ -2,8 +2,8 @@
 *
 *  Project Name: One Time, One Time
 *  Description: A message encrypter and decrypter using an improved One Time Pad
-*  File names: onetimepad.c, makefile, KEY.txt, MESSAGE.txt
-*  Run Command: cat message1.txt delimiter.txt key1.txt | ./ontimepad
+*  File names: onetimepad.c, makefile, keyX.txt, messageX.txt
+*  Run Command: cat messageX.txt delimiter.txt keyX.txt | ./ontimepad
 *  Date: 2/16/18
 *  Authors: Clay Buxton (buxtonc@etown.edu), Lacie Flores (floresl@etown.edu)
 *
@@ -12,20 +12,11 @@
 #include <stdio.h>
 #define MAX_STR 2048
 
-void printstr(unsigned char str[], int length){
-  int i;
-  for(i = 0; i < length; i++){
-    putchar(str[i]);
-  }
-}
-
-void printints(unsigned char str[]){
-  printf("Printing Ints \n");
-  int i;
-  for(i = 0; str[i] != 0; i++){
-    printf("%d ", str[i]);
-  }
-}
+//Define our functions
+void printstr(unsigned char str[], int length);
+void printints(unsigned char str[]);
+int rotate(unsigned char character, int count);
+int bits(unsigned char inputChar);
 
 
 
@@ -65,14 +56,72 @@ int main(){
 
   }
 
+  //Encrypt key
+  int sum = key[keyLen-1];
+  printf("Sum: %c", sum);
+  unsigned char chainedKey[keyLen];
+  int bitOp = keyLen;
+  for(i = 0; i < keyLen; i++){
+    chainedKey[i] = rotate((key[i]^key[sum]),bits(key[bitOp]));
+    sum+=chainedKey[i];
+    sum = sum % keyLen;
+    bitOp = i;
+  }
+
+
+
   printf("\nPrinting the Message (Length: %d)\n\n", messageLen);
   printstr(message, messageLen);
   printf("\n\nPrinting the Key (Length: %d)\n\n", keyLen);
   printstr(key, keyLen);
+  printf("\n");
+  int test = rotate('a',2);
+  printf("%c\n", test);
+  int testbits = bits(7);
+  printf("%d\n", testbits);
+  printf("\n\nEncrypted Key\n");
+  printstr(chainedKey, keyLen);
+  printf("\n\nEnd Sum: %c", sum);
+
   //Make sure the key is long enough if not:
     //Tile
+unsigned char outputMessage[keyLen];
+for(i = 0; i < keyLen-1; i++){
+  outputMessage[i] = chainedKey[i] ^ message[i];
+}
+
+printf("\n\nOUTPUT MESSAGE:\n");
+printstr(outputMessage, keyLen);
+
+return 0;
+}
 
 
+void printstr(unsigned char str[], int length){
+  int i;
+  for(i = 0; i < length; i++){
+    putchar(str[i]);
+  }
+}
 
-  return 0;
+void printints(unsigned char str[]){
+  printf("Printing Ints \n");
+  int i;
+  for(i = 0; str[i] != 0; i++){
+    printf("%d ", str[i]);
+  }
+}
+
+int rotate(unsigned char character, int count){
+	return (character >> count) | (character <<(7 - count));
+
+}
+
+int bits(unsigned char inputChar){
+  int totalBits = 0;
+  while(inputChar){
+    totalBits += inputChar & 1;
+    inputChar >>= 1;
+  }
+  return totalBits;
 }
