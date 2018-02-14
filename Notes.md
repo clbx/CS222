@@ -98,6 +98,7 @@ Can only set bytes.
 ```memcpy(copy, cubes, sizeof(cubes));```
 will move copy to cubes.
 
+
 ### Passing Arrays to Functions
 
 Any changes made to arrays in a function will affect the array outside of the function. You must pass array length with the array when giving it an array.
@@ -169,5 +170,5 @@ Since ```pa``` points to an element in the array ```pa+i``` will point to next o
 References to Array locations can also be used by referring to the array as a pointer, ```*(a+i)``` is a legal way to access data in ```a[i]``` the inverse is also true ```*(pa+i)``` can be accessed by doing ```pa[i]```
 
 Passing to a function is identical too ```f(&a[2])``` is the same as ```f(a+2)```
-
+```
 ### Address Arthmetic

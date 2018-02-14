@@ -14,14 +14,30 @@ int readInt(){
 	return i;
 }
 
+void selectionSort(int array[], int size){
+	int i = 0;
+	for(i = 0; i < size; i++){
+		int j = 0;
+		int small = i;
+		for(j = i + 1; j < size; j++){
+			if(array[j] < array[small]){
+				small = j;
 
+				int temp = array[i];
+				array[i] = array[small];
+				array[small] = temp;
+			}
+		}
+	}
+
+}
 
 int main(){
   int values[100];
   int size = 0;
 
   do{
-    printf("Please enter a int between 0 and 100");
+    printf("Please enter a int between 0 and 100: ");
     size = readInt();
   }while(size > 100);
 
@@ -43,7 +59,19 @@ int main(){
   }
   double avg = total/size;
 
-  printf("Max %d, Min %d, Avg, %f", max, min, avg);
+  printf("Max %d, Min %d, Avg, %f\n", max, min, avg);
+
+	double variance = 0;
+
+	for(i = 0; i < size; i++){
+		variance += (values[i] - avg)*(values[i] - avg);
+	}
+	variance /= size-1;
+	printf("Variance: %f", variance);
+
+	//Median
+
+	
 
 
 

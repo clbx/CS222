@@ -27,18 +27,21 @@ int main(){
   int keyLen = 0;
 
   //Try to do differently maybe? It's a little funky right now
-  int inputChar = 0, i = 0;
+  int inputChar = 0, i = 0, flag = 1;
   for(i = 0; (inputChar != 255) && (i < MAX_STR); i++){
     inputChar = getchar();
     if(inputChar != EOF && inputChar != 255){
       message[i] = inputChar;
       messageLen++;
     }
+    else if(inputChar == 255)
+      flag = 0;
   }
-
-  int shit;
-  while(shit != 255){
-    shit = getchar();
+  if(flag){
+    int shit;
+    while(shit != 255){
+      shit = getchar();
+    }
   }
 
   for(i = 0; (inputChar != EOF) && (keyLen < messageLen); i++){
