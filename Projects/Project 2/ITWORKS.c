@@ -27,18 +27,21 @@ int main(){
   int keyLen = 0;
 
   //Try to do differently maybe? It's a little funky right now
-  int inputChar = 0, i = 0;
+  int inputChar = 0, i = 0, flag = 1;
   for(i = 0; (inputChar != 255) && (i < MAX_STR); i++){
     inputChar = getchar();
     if(inputChar != EOF && inputChar != 255){
       message[i] = inputChar;
       messageLen++;
     }
+    else if(inputChar == 255)
+      flag = 0;
   }
-
-  int shit;
-  while(shit != 255){
-    shit = getchar();
+  if(flag){
+    int shit;
+    while(shit != 255){
+      shit = getchar();
+    }
   }
 
   for(i = 0; (inputChar != EOF) && (keyLen < messageLen); i++){
@@ -48,27 +51,29 @@ int main(){
       keyLen++;
     }
   }
-  printf("\nPrinting the Message (Length: %d)\n\n", messageLen);
-  printstr(message, messageLen);
+  //printf("\nPrinting the Message (Length: %d)\n\n", messageLen);
+  //printstr(message, messageLen);
 
 
   //Tiler
   if(keyLen < messageLen){
     int difference = messageLen - keyLen, i = 0;
-    printf("\n\nTiling in Progress, key is %d char's shorter than message.\n", difference);
+    //printf("\n\nTiling in Progress, key is %d char's shorter than message.\n", difference);
     for(i = 0; i < difference; i++){
       key[keyLen+i] = key[i];
     }
     keyLen = messageLen;
 
   }
+  /*
   printf("\n\nPrinting the Key (Length: %d)\n\n", keyLen);
   printstr(key, keyLen);
   printf("\n");
+  */
 
   //Encrypt key
   int sum = key[keyLen-1]%keyLen;
-  printf("Sum: %c", sum);
+  //printf("Sum: %c", sum);
   //unsigned char chainedKey[keyLen];
   int bitOp = keyLen-1;
   for(i = 0; i < keyLen; i++){
@@ -81,7 +86,7 @@ int main(){
 
 
 
-
+/*
   int test = rotate('5',2);
   printf("%d\n", test);
   int testbits = bits(7);
@@ -89,7 +94,7 @@ int main(){
   printf("\n\nEncrypted Key\n");
   printstr(key, keyLen);
   printf("\n\nEnd Sum: %c", sum);
-
+*/
 
   //Make sure the key is long enough if not:
     //Tile
@@ -98,7 +103,7 @@ for(i = 0; i < keyLen; i++){
   outputMessage[i] = key[i] ^ message[i];
 }
 
-printf("\n\nOUTPUT MESSAGE:\n");
+//printf("\n\nOUTPUT MESSAGE:\n");
 printstr(outputMessage, keyLen);
 
 return 0;
