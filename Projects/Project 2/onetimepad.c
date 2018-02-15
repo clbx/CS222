@@ -26,7 +26,7 @@ int rotate(unsigned char character, int count);                                 
 int bits(unsigned char inputChar);                                                                       //This will output how many 1's are in the binary representation of a value.
 struct lengthValues getInputs(unsigned char message[], unsigned char key[], struct lengthValues lengths);//This will get the inputs from the user and put them into the character arrays.
 struct lengthValues tiler(unsigned char key[], struct lengthValues lengths);                             //This will ensure the key is as long as the message by repeating it until it is.
-void chainer(unsigned char message[], unsigned char key[], struct lengthValues lengths);                 //This will run the chaining function to help strengthen the key encryption.
+void chainer(unsigned char message[], unsigned char key[], int keyLen);                 //This will run the chaining function to help strengthen the key encryption.
 void encrypt(unsigned char message[], unsigned char key[], int keyLen);                                  //This will XOR each character in key and message against each other completing the encryption.
 
 
@@ -39,12 +39,12 @@ void encrypt(unsigned char message[], unsigned char key[], int keyLen);         
 int main(){
   unsigned char message[MAX_STR];                                               //This is the array of characters that holds the message.
   unsigned char key[MAX_STR];                                                   //This is the array of characters that holds the key
-  struct lengthValues lengths;                                                  //This is a struct that holds the lengths of the key and message arrays
+  struct lengthValues lengths = {0,0};                                          //This is a struct that holds the lengths of the key and message arrays
   lengths = getInputs(message, key, lengths);                                   //Getting the inputs from the user, and then updating the lengths
   if(lengths.keyLen < lengths.messageLen){                                      //If the key is shorter than the message, get the key to be longer using tiling
     lengths = tiler(key, lengths);                                              //Tile it, and then update the lengths
   }
-  chainer(message, key, lengths);                                               //Using the chaining function, chain the key
+  chainer(message, key, lengths.keyLen);                                               //Using the chaining function, chain the key
   encrypt(message, key, lengths.keyLen);                                        //Now using the XOR encrypter encrypt the function
   printstr(message, lengths.keyLen);                                            //Now we let the world know
   return 0;                                                                     //All done.
@@ -86,7 +86,6 @@ struct lengthValues getInputs(unsigned char message[], unsigned char key[], stru
   }
   return lengths;                                                               //Give the lengths back then.
 }
-
 /*TILER
    Description: This function increases the key length by repeating itself until
    the key is just as long as the message
@@ -146,10 +145,10 @@ int rotate(unsigned char character, int count){
 	return (127 & ((character >> count) | (character <<(7 - count))));            //Shift the charater over, then & it so that the most significant digit is always 0
 }
 
-/* ROTATE
-   Description: This function rotates the bits of a character
-   Parameters:  character; the input character, count: the amount to shift it by
-   Returns:	    The rotated character.
+/* BITS
+   Description: This function counts the bits of a character
+   Parameters: inputChar; the input character
+   Returns:        The total number of bits.
 */
 int bits(unsigned char inputChar){
   int totalBits = 0;                                                            //totalBits: the total amount of '1' bits in a character
