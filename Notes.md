@@ -112,11 +112,14 @@ when calling a Multi-Dimenstional array you have to give it number of columns
 
 
 
+
+
+
 ### Pointers
 
 A pointer is a varible that contains the address of a variable
 
-```p = &c``` will assign the address of c to the varible p
+```p = &c``` will assign the address of c to the varible p.
 
 This only applies to objects in memory.
 
