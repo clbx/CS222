@@ -163,7 +163,63 @@ In C there are the standard control flow operators
 
 ``if`` statments, ``switch`` statments, for selection.
 
+#### Control Flow
+``if`` statements:
+
+```c
+if(condition)
+  statement1;
+else
+  statement2
+```
+
+``switch`` statements:
+
+```c
+switch(data){
+  case constant1:
+    statement1;
+    break;
+  case constant2:
+    statement2;
+    break;
+  case constant3:
+    statement3;
+    break;
+  default:
+    defaultstatement;
+    break;
+}
+```
+
 ``for``, ``while``, and ``do while`` loops for repitition.
+
+``while`` loop:
+
+```c
+while(condition)
+  statement;
+```
+
+``for`` loop:
+the initialized variable must be initialized before the loop.
+
+```c
+for(initialization; condition; increment)
+  statement;
+```
+
+``do-while`` loops:
+Will run the loop once then check for conditions.
+
+```c
+do
+  statement
+while(condition)
+```
+
+
+
 
 There is **no boolean type** all conditionals are **any numer > 0 is True** and **0 = False**.
 
@@ -324,30 +380,66 @@ y = x ^ y;
 x = x ^ y;
 ```
 
-## Control Flow
-``if`` statements:
+
+## Things to do not because "style"
+
+``break`` command will break out of a loop. Apparenty loops should only have 1 enterance and 1 exit.
+
+``continue`` is similar to break, but instead of breaking out of the loop, it just makes it restart the loop.
+
+``goto`` will go to a named label. This creates spaghetti code.
 
 ```c
-if(condition)
-  statement1;
-else
-  statement2
+goto stop;
+somethingElse
+stop;
 ```
 
-``switch`` statements:
+## Error handling
+
+There are no exceptions in C like there are in Java.
+
+When a system call fails it just outputs -1.
+
+To find out why something failed you can include the error library  using ``#include <errno.h>``
+
+This creates a var ``errno`` which will hold details of an error if it occurs. Along with it the ``perror()`` function is used to print errors.
+
+## Functions
+```c
+type name(arguments){
+  statements
+}
+```
+
+In C you don't have too, but should put a return type.
+
+**Prototyping** is where you delcare the function before it's used so it can be used in preceeding functions.
+
+If your method doesnt take any parameters, you should put ``void`` as the arguments like:
 
 ```c
-switch(data){
-  case constant1:
-    statement1;
-    break;
-  case constant2:
-    statement2;
-    break;
-  case constant3:
-    statement3;
-    break;
-  default:
-    defaultstatement;
-    break;
-}
+double stuff(void){}
+```
+
+
+
+
+
+## Systems Programming
+
+#### System Calls:
+
+A system call a way to ask the kernel to do something. Since a lot of things can only be done by the kernel system calls are provided via an API (Application Programming Interface). When making a system call the processor changed from a user mode to a kernel mode. There are a fixed number of systems calls defined for a system.
+
+#### glibc
+
+``glibc`` is the most common C standard library.
+
+#### System Types
+
+C has a feature called ``typedef`` which allows a user to give a new time to a type.
+
+System types are often used for cross compatability where type sized might be different.
+
+The most common is ``size_t`` which is the type that specifies length. There are other things like ``pid_t`` for process ID's
