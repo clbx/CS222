@@ -1,3 +1,9 @@
+### Ask if on test:
+* Conditional compilation (Slides #5)
+* System Limits (Slides #6)
+* Precedence Table (Slides #6)
+
+
 # Unix & Linux
 Unix was originally Unics **UN**iplexed **I**nformation and **C**omputing **S**ervices.
 and is a pun on Multics.
@@ -83,6 +89,16 @@ specifiers are signified with a ``%``
 |o|unsigned int in octal|s|Null terminated string|
 |c|character|
 
+Its important to be careful with specifiers
+
+```c
+printf("%d\n", 13.7);
+printf("%x\n", 13.7);
+printf("%c\n", 13.7);
+```
+
+all output different things.
+
 ## Basic command line
 
 ``ls`` will list everything in the current directory.
@@ -125,9 +141,6 @@ int main(){
 }
 ```
 
-#### With Conditionals
-
-Runs a conditional in the compilation. 
 
 #### Makefiles
 
@@ -173,6 +186,18 @@ You cannot declare a variable in the header of a for loop, like you can in java.
 A literal is a fixed constant. It cannot be changed once defined. Also called constants
 
 By default every integer is assumed to be a signed int. Put an ``L`` at the end to define it at a literal.
+
+## Other C Features
+
+``sizeof`` is a built in operator that will tell you the size of a data type or variable in bytes.
+
+``const`` creates a constant, though its only a suggestion, they can be changed. Because of that ``#define`` is better to be used.
+
+``getchar()`` will read the next character from input. Will return -1 when it reaches the end of file.
+
+``putchar()`` is the ouput equivielent to ``getchar()`` it outputs a single character at a time.
+
+
 
 ## Number Systems and 2's Complement
 
@@ -260,3 +285,69 @@ Must add to program by ``#include <math.h>`` and ``-lm`` must be added to the co
 |atan(double x)|arctan(x)|ceil(double x)|Round up X|
 |atan2(double y, double x)|arctan(y/x)|floor(double x)|Round down X|
 |fabs(double x)|Absolute Value of X|fmod(double value, double divisor)|Remainder of dividing value by divisor|
+
+## System Limits:
+
+The header ``limits.h`` includes a number of constants helpful for C
+
+|Constant|Typ. Value|Constant|Typ. Value|
+|--------|---------|--------|-------|
+|SCHAR_MIN|-128|INT_MIN|-2147483648|
+|SCHAR_MAX|127|INT_MAX|2147483647|
+|UCHAR_MAX|255|UINT_MAX|4294967295|
+|CHAR_MIN|-128|LONG_MIN|-2147483648|
+|CHAR_MAX|127|LONG_MAX|2147483647|
+|SHRT_MIN|-32768|ULONG_MAX|4294967295|
+|SHRT_MAX|32767|CHAR_BIT|8|
+|USHRT_MAX|65535|
+
+#### Other Limits
+
+Getting other limits like, how many files can be open at once, max name of a filename etc. can all be gotten from calling the sysconf() or pathconf() functions.
+
+
+## Bitwise Operators
+
+``&``: bitwise AND
+``|``: bitwise OR
+``~``: bitwise NOT
+``^``: bitwise XOR
+``<<``: Left Shift
+``>>``: Right Shift
+
+Same as 332 Operators
+
+Swapping without a temp:
+```c
+x = x ^ y;
+y = x ^ y;
+x = x ^ y;
+```
+
+## Control Flow
+``if`` statements:
+
+```c
+if(condition)
+  statement1;
+else
+  statement2
+```
+
+``switch`` statements:
+
+```c
+switch(data){
+  case constant1:
+    statement1;
+    break;
+  case constant2:
+    statement2;
+    break;
+  case constant3:
+    statement3;
+    break;
+  default:
+    defaultstatement;
+    break;
+}
