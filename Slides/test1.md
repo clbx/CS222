@@ -1,7 +1,7 @@
 ### Ask if on test:
-* Conditional compilation (Slides #5)
-* System Limits (Slides #6)
-* Precedence Table (Slides #6)
+* Conditional compilation (Slides #5) YES
+* System Limits (Slides #6)           NO
+* Precedence Table (Slides #6)        NO, but be familiar
 
 
 # Unix & Linux
@@ -280,7 +280,7 @@ printf("%o", 1050); //prints 2032
 
 
 ### Two's Complement
-Only works with a fixed number of bits.
+**Only works with a fixed number of bits.**
 
 **If the MSB is 1 the number is negative, 0 is positive**
 
@@ -328,6 +328,8 @@ http://users.etown.edu/w/wittmanb/cs222
 
 
 ## Math Library
+
+(Probably not in exam)
 
 Must add to program by ``#include <math.h>`` and ``-lm`` must be added to the compilation command.
 
@@ -443,3 +445,27 @@ C has a feature called ``typedef`` which allows a user to give a new time to a t
 System types are often used for cross compatability where type sized might be different.
 
 The most common is ``size_t`` which is the type that specifies length. There are other things like ``pid_t`` for process ID's
+
+
+
+
+
+
+
+# IN-CLASS TEST REVIEW
+(Slides 13)
+
+#### Exam consists of:
+
+* Multiple Choice x10; 2pts each.
+* Some short answer;
+* 60% are programming questions, each worth 15%.
+  * at least one will be a full C program.
+
+#### Things that "might be on it"
+- Make a makefile
+- Converting between bases (2, 8, 10, 16)
+  - Take it in groups of 3 or 4 in binary to get Oct or Hex.
+- 2's complement.
+- Floating Point
+- Not really any pointers.
