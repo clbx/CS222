@@ -696,3 +696,9 @@ A **segmentation fault** is when your code tries to access a segment it's not su
 - 2's complement.
 - Floating Point
 - Not really any pointers.
+
+
+Things to work on:
+
+* Makefiles (chain compilation).
+* 2's complement
