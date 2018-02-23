@@ -12,14 +12,14 @@
 
 |Type|Length|
 |----|------|
-|char|2|
+|char|1|
 |int|4|
 |float|4|
 |short|2|
 |long|4|
 |double|8|
 
-7.) What about ``long long`` and ``long double`` are different **One is supported in C99, the other is not**
+7.) What about ``long long`` and ``long double`` are different **Are supported in C99 but not C89**
 
 8.) What does ``#include`` do internally  **Copies and pastes everything from that file to the program**
 
