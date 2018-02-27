@@ -1,5 +1,4 @@
-onetimepad: onetimepad.c
-	gcc onetimepad.c -o onetimepad
-
+string: runstring.c new_string.h
+	gcc runstring.c new_string.h -o strings
 clean:
-	rm -f onetimepad
+	rm -f strings
