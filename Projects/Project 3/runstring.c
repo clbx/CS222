@@ -11,6 +11,8 @@ int main(){
   const char string2[] = "Hello my name is Clay";
   scanf("%s", string);
 
-  printf("%p", new_strnchr(string2,'n'));
+  printf("%p\n", new_strchr(string2,'n'));
+  printf("%p", strchr(string2,'n'));
+
   return 1;
 }

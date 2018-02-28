@@ -192,7 +192,7 @@ scanf("%d", &number);
 
 ### malloc()
 
-Malloc will allocate memory whereever for whatever you want.
+Malloc will allocate memory wherever for whatever you want.
 
 ``char* newString = (char*)malloc(sizeof(char)*(size+1));``
 
@@ -200,3 +200,12 @@ Malloc will allocate memory whereever for whatever you want.
 free will free the memory held by something like malloc.
 
 If you try to free something that's already freed, the program will crash.
+
+to allocate a 2D array:
+
+``int** table = (int**)malloc(sizeof(int*)*rows)``
+
+then for each array inside of it:
+``table[i] = (int*)malloc(sizeof(int)*columns);``
+
+### rand();
