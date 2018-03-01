@@ -195,6 +195,16 @@ char* new_strchr(const char* string, int character){//Clay DONE
    Returns:
 */
 char* new_strstr(const char* haystack, const char* needle){//Clay
-
-
+	while(*str){
+		char* Begin = haystack;
+		char* pattern = needle;
+		while(*haystack && *pattern && *str == *pattern){
+			str++;
+			pattern++
+		}
+		if(!*pattern)
+			return Begin;
+		str = Begin +1;
+	}
+	return NULL;
 }
