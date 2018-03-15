@@ -7,13 +7,14 @@
 #include <limits.h>
 
 void reverse(short* left, short* right, int lenLeft, int lenRight);
-void changeSpeed(short* left, short* right, int lenLeft, int lenRight);
+void changeSpeed(short* left, short* right, int lenLeft, int lenRight, double factor, WaveHeader head);
 void flip(short* left, short* right);
-short* swapValues(short* array, int index);
-void fadeo(short* left, short* right, int lenLeft, int lenRight);
+void swapValues(short* array, int index);
+void fadeOut(short* left, short* right, int lenLeft, int lenRight, int duration);
 void fadei(short* left, short* right, int lenLeft, int lenRight);
 void changeVol(short* left, short* right, int lenLeft, int lenRight, int changeBy);
 void echo(short* left, short* right, int lenLeft, int lenRight);
+
 
 
 
@@ -25,8 +26,8 @@ int main(int argc, char** argv){
 	int i = 0;
 	writeHeader(&head);
 
-	short* left = (short*)malloc(sizeof(short)*head.size/2);
-	short* right = (short*)malloc(sizeof(short)*head.size/2);
+	short* left = (short*)malloc(sizeof(short)*head.dataChunk.size/4);
+	short* right = (short*)malloc(sizeof(short)*head.dataChunk.size/4);
 
 	char first;
 	char second;
@@ -34,7 +35,7 @@ int main(int argc, char** argv){
 	int indexLeft = 0;
 	int indexRight = 0;
 
-	for(i = 1; i <= head.size; i++){
+	for(i = 1; i <= head.dataChunk.size/2; i++){
 		//
 		first = getchar();
 		second = getchar();
@@ -53,15 +54,20 @@ int main(int argc, char** argv){
 
 	fprintf(stderr, "%d\n", indexLeft);
 	fprintf(stderr, "%d\n", indexRight);
-	fprintf(stderr, "%d\n", head.size/2);
+	fprintf(stderr, "%d\n", head.dataChunk.size/2);
 
 	//reverse(left, right, indexLeft, indexRight);
-	changeVol(left, right, indexLeft, indexRight, 50);
+	//flip(left, right);
+	//Need to output both halves of the short.
+	//changeVol(left, right, indexLeft, indexRight, 50);
+	changeSpeed(left,right,indexLeft,indexRight,1.49,head);
 	for(i = 0; i < indexLeft; i++){
-		printf("%c", left[i]);
-		printf("%c", left[i]);
-		printf("%c", right[i]);
-		printf("%c", right[i]);
+		//char tempLeft = left[i];
+		//char tempRight = right[i];
+		printf("%c", (char)(left[i]>>8));
+		printf("%c", (char)(left[i] & 0x00FF));
+		printf("%c", (char)(right[i]>>8));
+		printf("%c", (char)(right[i] & 0x00FF));
 	}
 
 	free(left);
@@ -70,29 +76,43 @@ int main(int argc, char** argv){
 }
 
 
-
 void reverse(short* left, short* right, int lenLeft, int lenRight){
-	/*int i = 0;
-	for(i = 0; i < lenLeft-1; i++)
-		fprintf(stderr, "%d", left[i]);*/
-	left = swapValues(left, lenLeft);
-	right = swapValues(right, lenRight);
+	swapValues(left, lenLeft);
+	swapValues(right, lenRight);
 }
 
-short* swapValues(short* array, int length){
+void swapValues(short* array, int length){
 	int i = 0;
-	short* tempArray = (short*)malloc(sizeof(short)*length);
-	for(i = 0; i < length-1; i++){
-		tempArray[i] = array[length-1-i];
-		//fprintf(stderr, "%c\n", tempArray[i]);
-		//fprintf(stderr, "%c\n", array[length-1-i]);
+	short temp;
+	for(i = 0; i < length/2; i++){
+		temp = array[i];
+		array[i] = array[length-1-i];
+		array[length-1-i] = temp;
 	}
-	return tempArray;
-	free(tempArray);
 }
-/*
-void changeSpeed(short* left, short* right, int lenLeft, int lenRight){
 
+void changeSpeed(short* left, short* right, int lenLeft, int lenRight, double factor, WaveHeader head){
+
+	int newLength = lenLeft*factor;
+
+	short* newLeft = (short*)malloc(sizeof(short)*newLength);
+	short* newRight = (short*)malloc(sizeof(short)*newLength);
+
+	int headerSize = head.size - head.dataChunk.size;
+	head.dataChunk.size = newLength*2;
+	head.size = head.dataChunk.size + headerSize;
+
+	int i;
+	for(i = 0; i < newLength && i < lenLeft; i++){
+		newLeft[i] = left[(int)(i*factor)];
+		newRight[i] = right[(int)(i*factor)];
+	}
+
+	writeHeader(&head);
+	left = newLeft;
+	right = newRight;
+	free(newLeft);
+	free(newRight);
 }
 
 void flip(short* left, short* right){
@@ -100,11 +120,14 @@ void flip(short* left, short* right){
 	left = right;
 	right = temp;
 }
-
-void fadeo(short* left, short* right, int lenLeft, int lenRight){
+/*
+void fadeOut(short* left, short* right, int lenLeft, int lenRight, int duration){
+	int length = lenLeft;
+	int sampleStart = length - 1 - 44100*duration;
+	int i;
+	for(i = sampleStart; i < length; i++)
 
 }
-
 void fadei(short* left, short* right, int lenLeft, int lenRight){
 
 }
