@@ -1,13 +1,10 @@
-//Should 4 characters or 2.
-
-
 #include "wave.h"
 #include <stdio.h>
 #include <stdlib.h>
 #include <limits.h>
 
 void reverse(short* left, short* right, int lenLeft, int lenRight);
-void changeSpeed(short* left, short* right, int lenLeft, int lenRight, double factor, WaveHeader head);
+void changeSpeed(short** left, short** right, int lenLeft, int lenRight, double factor, WaveHeader* head);
 void flip(short* left, short* right);
 void swapValues(short* array, int index);
 void fadeOut(short* left, short* right, int lenLeft, int lenRight, int duration);
@@ -36,12 +33,10 @@ int main(int argc, char** argv){
 	int indexRight = 0;
 
 	for(i = 1; i <= head.dataChunk.size/2; i++){
-		//
 		first = getchar();
 		second = getchar();
 		combined = ((short)first) << 8;
 		combined = combined | second;
-		//
 		if(i%2 == 0){
 			right[indexRight] = combined;
 			indexRight++;
@@ -60,8 +55,8 @@ int main(int argc, char** argv){
 	//flip(left, right);
 	//Need to output both halves of the short.
 	//changeVol(left, right, indexLeft, indexRight, 50);
-	changeSpeed(left,right,indexLeft,indexRight,1.49,head);
-	for(i = 0; i < indexLeft; i++){
+	changeSpeed(&left,&right,indexLeft,indexRight,1.49,&head);
+	for(i = 0; i < head.dataChunk.size/2; i++){
 		//char tempLeft = left[i];
 		//char tempRight = right[i];
 		printf("%c", (char)(left[i]>>8));
@@ -91,28 +86,29 @@ void swapValues(short* array, int length){
 	}
 }
 
-void changeSpeed(short* left, short* right, int lenLeft, int lenRight, double factor, WaveHeader head){
+void changeSpeed(short** left, short** right, int lenLeft, int lenRight, double factor, WaveHeader* head){
 
-	int newLength = lenLeft*factor;
+	int newLength = lenLeft/factor;
 
 	short* newLeft = (short*)malloc(sizeof(short)*newLength);
 	short* newRight = (short*)malloc(sizeof(short)*newLength);
 
-	int headerSize = head.size - head.dataChunk.size;
-	head.dataChunk.size = newLength*2;
-	head.size = head.dataChunk.size + headerSize;
+	int headerSize = head -> size - head -> dataChunk.size;
+	head->dataChunk.size = newLength*2;
+	head->size = head->dataChunk.size + headerSize;
 
 	int i;
-	for(i = 0; i < newLength && i < lenLeft; i++){
-		newLeft[i] = left[(int)(i*factor)];
-		newRight[i] = right[(int)(i*factor)];
+	for(i = 0; i < newLength; i++){
+		newLeft[i] = (*left)[(int)(i*factor)];
+		newRight[i] = (*right)[(int)(i*factor)];
 	}
 
-	writeHeader(&head);
-	left = newLeft;
-	right = newRight;
-	free(newLeft);
-	free(newRight);
+	writeHeader(head);
+	free(*left);
+	free(*right);
+	*left = newLeft;
+	*right = newRight;
+
 }
 
 void flip(short* left, short* right){
