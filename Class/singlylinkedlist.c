@@ -24,7 +24,7 @@ node* find(node* head, int value){
 	return NULL;
 }
 
-void remove(node** headPointer, int value){
+void removeNode(node** headPointer, int value){
 	node* head = *headPointer;
 	if(head == NULL){
 		return;
@@ -72,4 +72,3 @@ int main(){
 
 	return 0;
 }
-

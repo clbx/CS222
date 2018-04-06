@@ -1,4 +1,7 @@
 #include <stdio.h>
+#include <stdio.h>
+
+
 
 int main(){
 	printf("What file do you want to open\n");
@@ -8,6 +11,9 @@ int main(){
 	FILE* file= fopen(filename, "r");
 	int total;
 	fscanf(file,"%d", &total);
+
+
+	int* array = (int*)malloc(sizeof(int)*n);
 
 	int i;
 	int number;

@@ -13,8 +13,8 @@ typedef struct _Student
 	char* last;
 	int points;
 	int year;
-	House house;	
-	
+	House house;
+
 	struct _Student* left;
 	struct _Student* right;
 
