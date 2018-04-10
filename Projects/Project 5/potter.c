@@ -9,75 +9,125 @@ Student* insert(Student* root, Student* node);
 void print(Student* root);
 Student* search(Student* root, char* first, char* last);
 Student* removeStudent(Student* root, char* first, char* last);
-void printstudent(Student* root);
-char* addNames(char* first, char* last);
+void printStudent(Student* root);
+int nameCmp(char* first1, char* last1, char* first2, char* last2);
 Student* findSmallest(Student* root);
+House findHouse(char* houseName);
+void Load(Student** Houses);
+void printAll(Student** Houses);
+
 
 int main(int argc, char** argv)
 {
-  //CREATE HOUSES
-  Student** GryfPoint;
-  Student** RavePoint;
-  Student** HuffPoint;
-  Student** SlytPoint;
-
+	Student** Houses = (Student**)malloc(sizeof(Student*)*5);
   Student* Gryf = (Student*)malloc(sizeof(Student));
   Student* Rave = (Student*)malloc(sizeof(Student));
   Student* Huff = (Student*)malloc(sizeof(Student));
   Student* Slyt = (Student*)malloc(sizeof(Student));
+	Student* Dead = (Student*)malloc(sizeof(Student));
+
+	Houses[0] = Gryf;
+	Houses[1] = Rave;
+	Houses[2] = Huff;
+	Houses[3] = Slyt;
+	Houses[4] = Dead;
 
   Gryf = NULL;
   Rave = NULL;
   Huff = NULL;
   Slyt = NULL;
+	Dead = NULL;
 
-  GryfPoint = &Gryf;
-  RavePoint = &Rave;
-  HuffPoint = &Huff;
-  SlytPoint = &Slyt;
-
-  Student* Harry = newStudent("Harry", "Potter", 50, 3, GRYFFINDOR);
-  *GryfPoint = insert(*GryfPoint, Harry);
-  Student* Ron = newStudent("Ron", "Weasley", 150, 3, GRYFFINDOR);
-  *GryfPoint = insert(*GryfPoint, Ron);
-  Student* Hermione = newStudent("Hermione", "Granger", 500, 3, GRYFFINDOR);
-  *GryfPoint = insert(*GryfPoint, Hermione);
-  printf("=============\n");
-  print(*GryfPoint);
-  printf("=============\n");
-  printstudent(search(*GryfPoint, "Ron", "Weasley"));
-  *GryfPoint = removeStudent(*GryfPoint, "Harry", "Potter");
-  printf("=============\n");
-  print(*GryfPoint);
+	Load(Houses);
+	printAll(Houses);
 
 
 }
 
+void Load(Student** Houses)
+{
+	FILE* file = fopen("roster.txt","rb");
+
+
+	char first[100];
+	char last[100];
+	char house[100];
+	int year=1;
+	int points=0;
+	House sHouse;
+  Student* nStudent;
+
+	//LOOP THROUGH THIS
+	int filesRead=5;
+  while(filesRead == 5)
+	{
+		filesRead = fscanf(file, "%s %s %d %d %s",first, last, &points, &year, house);
+		sHouse = findHouse(house);
+		nStudent = newStudent(first, last, points, year, sHouse);
+		if(nStudent->house == GRYFFINDOR)
+		{
+    	Houses[GRYFFINDOR] = insert(Houses[GRYFFINDOR], nStudent);
+    }
+		else if(nStudent->house == RAVENCLAW)
+    	Houses[RAVENCLAW] = insert(Houses[RAVENCLAW], nStudent);
+		else if(nStudent->house == HUFFLEPUFF)
+			Houses[HUFFLEPUFF] = insert(Houses[HUFFLEPUFF], nStudent);
+		else if(nStudent->house == SLYTHERIN)
+			Houses[SLYTHERIN] = insert(Houses[SLYTHERIN], nStudent);
+  }
+}
+
+void printAll(Student** Houses)
+{
+	printf("GRYFFINDOR\n");
+	print(Houses[GRYFFINDOR]);
+	printf("RAVENCLAW\n");
+	print(Houses[RAVENCLAW]);
+  printf("HUFFLEPUFF\n");
+	print(Houses[HUFFLEPUFF]);
+	printf("SLYTHERIN\n");
+	print(Houses[SLYTHERIN]);
+}
+
+House findHouse(char* houseName)
+{
+	if(strcmp(houseName,"Gryffindor") == 0)
+  	return GRYFFINDOR;
+  else if(strcmp(houseName,"Hufflepuff") == 0)
+    return HUFFLEPUFF;
+  else if(strcmp(houseName,"Slytherin") == 0)
+    return SLYTHERIN;
+  else if(strcmp(houseName,"Ravenclaw") == 0)
+    return RAVENCLAW;
+}
+
+//Inserts a student into the tree
 Student* insert(Student* root, Student* node)
 {
-  fprintf(stderr, "Gets inside\n");
   if(root == NULL)
   {
     return node;
   }
-
-  if(strcmp(root->last, node->last) > 0)
+	int nameAmt = nameCmp(root->first, root->last, node->first, node->last);
+  if(nameAmt > 0)
     root->left = insert(root->left, node);
-  else if(strcmp(root->last, node->last) < 0)
+  else if(nameAmt < 0)
     root->right = insert(root->right, node);
 }
 
+
+//Searches through the tree looking for students
 Student* search(Student* root, char* first, char* last)
 {
-  char* name = addNames(first, last);
-  char* rootName = addNames(root->first, root->last);
   if(root == NULL)
     return NULL;
-  else if(strcmp(name, rootName)==0)
+	int nameAmt = nameCmp(first, last, root->first, root->last);
+
+	if(nameAmt ==0)
 	{
      return root;
 	}
-  else if(strcmp(name, rootName)<0)
+  else if(nameAmt < 0)
 	{
 		return search(root->left, first, last);
 	}
@@ -85,32 +135,44 @@ Student* search(Student* root, char* first, char* last)
 	{
 		return search(root->right, first, last);
 	}
-
 }
 
-char* addNames(char* first, char* last)
+
+//Compares names too see which ones come alphabetically first
+int nameCmp(char* first1, char* last1, char* first2, char* last2)
 {
-  char* name = (char*)malloc(sizeof(char));
-  name = strcat(name, last);
-  name = strcat(name, first);
-  return name;
+  char* name1 = (char*)malloc(sizeof(char));
+  name1 = strcat(name1, last1);
+  name1 = strcat(name1, first1);
+	char* name2 = (char*)malloc(sizeof(char));
+	name2 = strcat(name2,last2);
+	name2 = strcat(name2,first2);
+
+	int cmpAmt = strcmp(name1, name2);
+  return cmpAmt;
 }
 
+
+//Prints out an entire tree of students
 void print(Student* root)
 {
   if(root != NULL)
   {
     print(root->left);
-    printstudent(root);
+    printStudent(root);
     print(root->right);
   }
 }
 
-void printstudent(Student* root)
+
+//Prints out an individual students information
+void printStudent(Student* root)
 {
   printf("%s %s (Year: %d) - Points: %d, House %s\n", root->first, root->last, root->year, root->points, HOUSE_NAMES[root->house]);
 }
 
+
+//Creates a new student
 Student* newStudent(char* first, char* last, int points, int year, House house)
 {
   Student* student = (Student*)malloc(sizeof(Student));
@@ -124,39 +186,16 @@ Student* newStudent(char* first, char* last, int points, int year, House house)
   return student;
 }
 
+
+//Removes a student from the tree
 Student* removeStudent(Student* root, char* first, char* last)
 {
-  char* name = addNames(first, last);
-  char* rootName = addNames(root->first, root->last);
-  if(root == NULL)
+	if(root == NULL)
     return root;
-  if(strcmp(name, rootName) < 0)
-    root->left = removeStudent(root->left, first, last);
-  else if(strcmp(name, rootName) > 0)
-    root->right = removeStudent(root->right, first, last);
-  else
-  {
-    if(root->left == NULL)
-    {
-      Student* temp = root->right;
-      free(root);
-      return temp;
-    }
-    else if(root->right == NULL)
-    {
-      Student* temp = root->left;
-      free(root);
-      return temp;
-    }
-    Student* temp = findSmallest(root->right);
-    root->first = temp->first;
-    root->last = temp->last;
-    root->right = removeStudent(root->right, first, last);
-  }
-  return root;
 
 }
 
+//Finds the smallest node in the tree
 Student* findSmallest(Student* root)
 {
   Student* current = root;
@@ -165,5 +204,3 @@ Student* findSmallest(Student* root)
 
   return current;
 }
-
-//hello
