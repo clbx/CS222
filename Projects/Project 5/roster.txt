@@ -26,7 +26,7 @@ Terry Boot 0 4 Ravenclaw
 Mandy Brocklehurst 0 4 Ravenclaw
 Anthony Goldstein 0 4 Ravenclaw
 Padma Patil 0 4 Ravenclaw
-Lisa Turpin 0 4 Ravenclaw
+Lisa Turpin 0 3 Ravenclaw
 Michael Corner 0 4 Ravenclaw
 Eddie Carmichael 0 6 Ravenclaw
 Cho Chang 0 5 Ravenclaw

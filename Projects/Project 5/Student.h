@@ -1,10 +1,10 @@
 #ifndef STUDENT_H
 #define STUDENT_H
 
-#define HOUSES 4
+#define HOUSES 5
 
-typedef enum { GRYFFINDOR, RAVENCLAW, HUFFLEPUFF, SLYTHERIN } House;
-char* HOUSE_NAMES[HOUSES] = {"Gryffindor", "Ravenclaw", "Hufflepuff", "Slytherin"};
+typedef enum { GRYFFINDOR, RAVENCLAW, HUFFLEPUFF, SLYTHERIN, DEAD } House;
+char* HOUSE_NAMES[HOUSES] = {"Gryffindor", "Ravenclaw", "Hufflepuff", "Slytherin", "Deceased"};
 
 
 typedef struct _Student

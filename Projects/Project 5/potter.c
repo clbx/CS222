@@ -6,16 +6,18 @@
 
 Student* newStudent(char* first, char* last, int points, int year, House house);
 Student* insert(Student* root, Student* node);
-void print(Student* root);
 Student* search(Student* root, char* first, char* last);
 Student* removeStudent(Student* root, char* first, char* last);
 void printStudent(Student* root);
 int nameCmp(char* first1, char* last1, char* first2, char* last2);
 Student* findSmallest(Student* root, Student* parent);
 House findHouse(char* houseName);
-void Load(Student** Houses);
-void printAll(Student** Houses);
-Student* kill(char* first, char* last, Student* root);
+void load(Student** Houses, char* filename);
+void printAll(Student** Houses,int order);
+void printhelp();
+void inOrder(Student* root);
+void preOrder(Student* root);
+void postOrder(Student* root);
 
 
 int main(int argc, char** argv)
@@ -28,19 +30,157 @@ int main(int argc, char** argv)
 	Houses[SLYTHERIN] = NULL;
 	Houses[4] = NULL;    //Dead;
 
+	/*COMMAND STRUCTURE*/
+	int quit = 1;
+
+	char cmdString[50];
 
 
-	Load(Houses);
-	printAll(Houses);
+	while(quit){
+		printf("Enter your command: ");
+		scanf("%s", cmdString);
 
-	printf("==================\n");
-	printAll(Houses);
+		//HELP
+		if(strcmp(cmdString, "help") == 0)
+		{
+			printhelp();
+		}
+		//LOAD
+		else if(strcmp(cmdString, "load") == 0)
+		{
+			char filename[50];
+			scanf("%s", filename);
+			load(Houses, filename);
+		}
+		//SAVE
+		else if(strcmp(cmdString, "save") == 0)
+		{
+
+		}
+		//CLEAR
+		else if(strcmp(cmdString, "clear") == 0)
+		{
+
+		}
+		//INORDER
+		else if(strcmp(cmdString, "inorder") == 0)
+		{
+			printAll(Houses, 1);
+		}
+		//PREORDER
+		else if(strcmp(cmdString, "preorder") == 0)
+		{
+			printAll(Houses, 2);
+		}
+		//POSTORDER
+		else if(strcmp(cmdString, "postorder") == 0)
+		{
+			printAll(Houses, 3);
+		}
+		//ADD
+		else if(strcmp(cmdString, "add") == 0)
+		{
+			char first[50];
+			char last[50];
+			char house[50];
+			int points;
+			int year;
+			House sHouse;
+
+			scanf("%s%s%d%d%s",first, last, &points, &year, house);
+			sHouse = findHouse(house);
+			Student* nStudent = newStudent(first, last, points, year, sHouse);
+			Houses[sHouse]  = insert(Houses[sHouse], nStudent);
+		}
+		//KILL
+		else if(strcmp(cmdString, "kill") == 0)
+		{
+			char first[50];
+			char last[50];
+			char house[50];
+			int validFlag = 1;
+			House sHouse;
+
+			scanf("%s%s%s", first, last, house);
+			sHouse = findHouse(house);
+			if(sHouse == -1)
+			{
+				printf("Kill failed. Invalid house %s\n", house);
+				validFlag = 0;
+			}
+			if(validFlag)
+			{
+				Student* temp = search(Houses[sHouse], first, last);
+				if(temp != NULL)
+				{
+					Houses[sHouse] = removeStudent(Houses[sHouse], first, last);
+					Houses[4] = insert(Houses[4], temp);
+				}
+				else{
+					printf("Kill failed: %s %s was not found in %s house\n", first, last, house);
+				}
+			}
+
+
+		}
+		//FIND
+		else if(strcmp(cmdString, "find") == 0)
+		{
+			char first[50];
+			char last[50];
+			char house[50];
+			House sHouse;
+			int validFlag = 1;
+			scanf("%s%s%s", first, last, house);
+			sHouse = findHouse(house);
+			if(sHouse == -1){
+				printf("Find failed. Invalid house: %s\n", house);
+				validFlag = 0;
+			}
+			if(validFlag)
+			{
+				Student* temp = search(Houses[sHouse],first, last);
+				if(temp != NULL){
+					printStudent(temp);
+				}
+				else
+					printf("Find failed. %s %s was not found in %s\n", first, last, house);
+			}
+		}
+		//POINTS
+		else if(strcmp(cmdString, "points") == 0)
+		{
+
+
+		}
+		//SCORE
+		else if(strcmp(cmdString, "score") == 0)
+		{
+
+		}
+		//QUIT
+		else if(strcmp(cmdString, "quit") == 0)
+		{
+			printf("Goodbye.");
+			quit = 0;
+
+		}
+		else
+		{
+			printf("Unknown Command %s\n", cmdString);
+		}
+	}
+
 
 }
 
-void Load(Student** Houses)
+void load(Student** Houses, char* filename)
 {
-	FILE* file = fopen("roster.txt","rb");
+	FILE* file = fopen(filename,"r+");
+	if(file == NULL){
+		printf("Load Failed. Invalid File <%s>\n", filename);
+		return;
+	}
 
 	char first[100];
 	char last[100];
@@ -52,23 +192,58 @@ void Load(Student** Houses)
 
 	//LOOP THROUGH THIS
 	int filesRead=5;
+	int validAdd = 1;
 	while(filesRead == 5)
 	{
+		validAdd = 1;
 		filesRead = fscanf(file, "%s %s %d %d %s",first, last, &points, &year, house);
 		if(filesRead == 5)
 		{
+
 			sHouse = findHouse(house);
-			nStudent = newStudent(first, last, points, year, sHouse);
-			Houses[sHouse] = insert(Houses[sHouse], nStudent);
+
+			if(year < 1 || year > 6)
+			{
+				printf("Add Failed: Invalid Year %d\n", year);
+				validAdd = 0;
+			}
+			//Check to see if it's a legal house.
+			else if(sHouse == -1){
+				printf("Add Failed: Invalid House: %s\n", house);
+				validAdd = 0;
+			}
+			//Check to see if student is already in the tree.
+			else if(sHouse != -1){
+				Student* temp = search(Houses[sHouse], first, last);
+				if(temp != NULL)
+				{
+					printf("Add failed: Student named %s %s already present in roster\n", first, last);
+					validAdd = 0;
+				}
+			}
+
+			if(validAdd)
+			{
+				nStudent = newStudent(first, last, points, year, sHouse);
+				Houses[sHouse] = insert(Houses[sHouse], nStudent);
+			}
 		}
 	}
+	printf("Successfully loaded data from file %s\n", filename);
+	fclose(file);
 }
 
-void printAll(Student** Houses)
+void printAll(Student** Houses, int order)
 {
 	int i;
 	for(i = GRYFFINDOR; i <= SLYTHERIN+1; i++){
-		print(Houses[i]);
+		printf("\n%s\n", HOUSE_NAMES[i]);
+		if(order == 1)
+			inOrder(Houses[i]);
+		else if(order == 2)
+			preOrder(Houses[i]);
+		else
+			postOrder(Houses[i]);
 	}
 }
 
@@ -133,22 +308,38 @@ int nameCmp(char* first1, char* last1, char* first2, char* last2)
 }
 
 
-//Prints out an entire tree of students
-void print(Student* root)
-{
-  if(root != NULL)
-  {
-    print(root->left);
-    printStudent(root);
-    print(root->right);
-  }
+
+void inOrder(Student* root){
+	if(root != NULL)
+	{
+		inOrder(root->left);
+		printStudent(root);
+		inOrder(root->right);
+	}
+}
+
+void preOrder(Student* root){
+	if(root != NULL){
+		printStudent(root);
+		preOrder(root->left);
+		preOrder(root->right);
+	}
+}
+
+void postOrder(Student* root){
+	if(root != NULL)
+	{
+		preOrder(root->left);
+		preOrder(root->right);
+		printStudent(root);
+	}
 }
 
 
 //Prints out an individual students information
 void printStudent(Student* root)
 {
-  printf("%s %s (Year: %d) - Points: %d, House %s\n", root->first, root->last, root->year, root->points, HOUSE_NAMES[root->house]);
+  printf("%-10s %-15s \tPoints: %-5d  Year: %d House: %s\n", root->first, root->last, root->points, root->year, HOUSE_NAMES[root->house]);
 }
 
 
@@ -221,9 +412,7 @@ Student* findSmallest(Student* root, Student* parent)
 	return root;
 }
 
-Student* kill(Student** Houses, char* first, char* last, char* sHouse){
-	House house = findHouse(sHouse);
-	Student* temp = search(Houses[house], first, last);
-	Houses[GRYFFINDOR] = removeStudent(Houses[GRYFFINDOR], "Harry", "Potter");
-	Houses[4] = insert(Houses[4], temp);
+void printhelp(){
+	printf("Help: \n");
+	return;
 }
