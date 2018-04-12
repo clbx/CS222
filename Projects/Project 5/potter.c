@@ -489,9 +489,15 @@ Student* removeStudent(Student* root, char* first, char* last)
 	if(nameAmt ==0)
 	{
 		if(root->left == NULL)
+		{
+			root->right = NULL;
 			return root->right;
+		}
 		else if(root->right == NULL)
+		{
+			root->left = NULL;
 			return root->left;
+		}
 		else
 		{
 			Student* temp = findSmallest(root->right, root);
