@@ -6,7 +6,6 @@ Romilda Vane 0 2 Gryffindor
 Kenneth Towler 0 6 Gryffindor
 Dean Thomas 0 4 Gryffindor
 Alicia Spinnet 0 6 Gryffindor
-Harry Potter 0 4 Gryffindor
 Jimmy Peakes 0 1 Gryffindor
 Parvati Patil 0 4 Gryffindor
 Cormac McLaggen 0 5 Gryffindor
