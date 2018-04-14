@@ -12,14 +12,18 @@ int main(){
 
 	int fd = open(filename, O_RDONLY);
 
-	char buffer[16];
-	read(fd, buffer, sizeof(char)*16);
-
+	unsigned char buffer[16];
 	int bytes = 16;
+	int place = 0;
 
 	while(bytes == 16){
-		read(fd, buffer, sizeof(char)*16);
-
+		bytes = read(fd, buffer, sizeof(char)*16);
+		printf("0x%06x :", place);
+		place += bytes;
+		int i;
+		for(i = 0; i < bytes; ++i)
+			printf(" %02x", (unsigned int)buffer[i]);
+		printf("\n");
 	}
 
 
