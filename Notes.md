@@ -208,4 +208,4 @@ to allocate a 2D array:
 then for each array inside of it:
 ``table[i] = (int*)malloc(sizeof(int)*columns);``
 
-### rand();
+### rand();4
