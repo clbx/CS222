@@ -1,13 +1,10 @@
-/*
-* Project Name: You got Served
-* Description: Create a web server.
-* File Names: server.c
-* Project Due Date: 4/30/2018
-* Authors: Kevin Carman and Clay Buxton
-*/
-
-//TODO/ASK: Favicon?
-//TODO/ASK: Spaces in file names
+/****************************************
+*   Project Name: You got Served
+*   Description: Create a web server.
+*   File Names: server.c
+*   Project Due Date: 4/30/2018
+*   Authors: Kevin Carman and Clay Buxton
+*****************************************/
 
 
 #include <stdio.h>
@@ -78,7 +75,7 @@ int main( int argc, char **argv ){
 
 		printf("Got a client:\n");
 
-		//make sure connection is established
+		//make sure connection is established not sure if we need this
 		/*
 		if(webSocket == -1){
 			printf("Could not establish connection on port %d\n", port);
@@ -126,7 +123,7 @@ int main( int argc, char **argv ){
 
 				if(file != NULL){
 					//send the 200 OK reply for the header
-					char* header = "HTTP/1.0 200 OK\r\n";
+					char* header = (char*)"HTTP/1.0 200 OK\r\n";
 					send(webSocket, header, strlen(header), 0);
 
 					//get information about the file to be sent
@@ -155,7 +152,7 @@ int main( int argc, char **argv ){
 				}else{ //file == NULL
 					printf("File not found: %s\n", updatedFile);
 					//send the 404 reply for the header
-					char* header = "HTTP/1.0 404 Not Found\r\n";
+					char* header = (char*)"HTTP/1.0 404 Not Found\r\n";
 					send(webSocket, header, strlen(header), 0);
 
 					//get information about the file
@@ -165,7 +162,7 @@ int main( int argc, char **argv ){
 
 					//send the content type for the header
 					char contentType[1000];
-					sprintf(contentType, "Content-Type: %s\r\n", typeCheck("404.html"));
+					sprintf(contentType, "Content-Type: %s\r\n", typeCheck((char*)"404.html"));
 					send(webSocket, contentType, strlen(contentType), 0);
 
 					//send the content length for the header
@@ -183,7 +180,7 @@ int main( int argc, char **argv ){
 				}
 			}else{
 				//send the 200 OK reply for the header
-				char* header = "HTTP/1.0 200 OK\r\n";
+				const char* header = "HTTP/1.0 200 OK\r\n";
 				send(webSocket, header, strlen(header), 0);
 
 				//get information about the file to be sent
