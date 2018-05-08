@@ -118,7 +118,7 @@ int main( int argc, char **argv ){
 			}
 
 			//execute GET or HEAD request
-			if(requestFlag == 1){
+			if(requestFlag){
 				FILE* file = fopen(updatedFile, "rb");	//file to be sent
 
 				if(file != NULL){
@@ -141,15 +141,18 @@ int main( int argc, char **argv ){
 					sprintf(contentLength, "Content-Length: %d\r\n\r\n", fileSize);
 					send(webSocket, contentLength, strlen(contentLength), 0);
 
-					//sends the file to the web browser
-					int readBytes = 0;	//stores the number of bytes read from the file
-					while((readBytes = fread(fileBuffer, sizeof(char), 2048, file)) != 0){
-						send(webSocket, fileBuffer, readBytes, 0);
+					if(requestFlag == 1){
+						//sends the file to the web browser
+						int readBytes = 0;	//stores the number of bytes read from the file
+						while((readBytes = fread(fileBuffer, sizeof(char), 2048, file)) != 0){
+							send(webSocket, fileBuffer, readBytes, 0);
+						}
+						printf("Sent file: %s\n\n", updatedFile);
+						fclose(file);
 					}
-					printf("Sent file: %s\n\n", updatedFile);
-					fclose(file);
 
-				}else{ //file == NULL
+				}
+				else{ //file == NULL
 					printf("File not found: %s\n", updatedFile);
 					//send the 404 reply for the header
 					char* header = (char*)"HTTP/1.0 404 Not Found\r\n";
@@ -171,33 +174,10 @@ int main( int argc, char **argv ){
 					send(webSocket, contentLength, strlen(contentLength), 0);
 
 					//sends the 404 file to the web browser
-					file = fopen("404.html", "rb");	//file for 404 error
-					int readBytes = 0;	//stores the number of bytes read from the file
-					while((readBytes = fread(fileBuffer, sizeof(char), 2048, file)) != 0){
-						send(webSocket, fileBuffer, readBytes, 0);
-					}
-					fclose(file);
+
+					char* fileNotFound = "<!DOCTYPE html PUBLIC \"-//W3C//DTD XHTML 1.1//EN\" \"http://www.w3.org/TR/xhtml11/DTD/xhtml11.dtd\"><html xmlns=\"http://www.w3.org/1999/xhtml\"><head><meta http-equiv=\"Content-Type\" content=\"text/html; charset=UTF-8\" /><title>404 Not Found</title></head><body><center><h1> 404 Not Found </h1><hr><img src=\"https://assets.rbl.ms/10636011/980x.gif\"></img></center></body></html>";
+					send(webSocket, fileNotFound, strlen(fileNotFound), 0);
 				}
-			}else{
-				//send the 200 OK reply for the header
-				const char* header = "HTTP/1.0 200 OK\r\n";
-				send(webSocket, header, strlen(header), 0);
-
-				//get information about the file to be sent
-				struct stat fileInformation;			//struct for storing information about a given file
-				stat(updatedFile, &fileInformation);	//retrieves information about the given file
-				int fileSize = fileInformation.st_size;	//total size of file in bytes
-
-				//send the content type for the header
-				char contentType[1000];
-				sprintf(contentType, "Content-Type: %s\r\n", typeCheck(updatedFile));
-				send(webSocket, contentType, strlen(contentType), 0);
-
-				//send the content length for the header
-				char contentLength[1000];
-				sprintf(contentLength, "Content-Length: %d\r\n\r\n", fileSize);
-				send(webSocket, contentLength, strlen(contentLength), 0);
-				printf("Sent head: %s\n\n",updatedFile);
 			}
 		}
 		close(webSocket);
